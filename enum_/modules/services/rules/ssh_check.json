@@ -1,0 +1,48 @@
+{
+  "rules": [
+    {
+      "id": "SSH Check 001",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*PermitRootLogin\\s+yes\\s*(#.*)?$"}
+      ],
+      "description": "SSH permits direct root authentication.",
+      "reference": "https://man.openbsd.org/sshd_config#PermitRootLogin",
+      "exploit": "Authenticate directly to the SSH service with authorized root credentials or an authorized root SSH key."
+    },
+    {
+      "id": "SSH Check 002",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*PasswordAuthentication\\s+yes\\s*(#.*)?$"}
+      ],
+      "description": "SSH permits password authentication.",
+      "reference": "https://man.openbsd.org/sshd_config#PasswordAuthentication",
+      "exploit": "Attempt authentication with credentials obtained during the assessment against the SSH service."
+    },
+    {
+      "id": "SSH Check 003",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*PermitEmptyPasswords\\s+yes\\s*(#.*)?$"}
+      ],
+      "description": "SSH permits authentication using accounts with empty passwords.",
+      "reference": "https://man.openbsd.org/sshd_config#PermitEmptyPasswords",
+      "exploit": "Attempt SSH authentication using an enabled account with an empty password."
+    },
+    {
+      "id": "SSH Check 004",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*(AllowTcpForwarding|GatewayPorts)\\s+(yes|clientspecified|remote|local)\\s*(#.*)?$"}
+      ],
+      "description": "SSH TCP forwarding is enabled and may permit users to tunnel access to otherwise inaccessible services.",
+      "reference": "https://man.openbsd.org/sshd_config#AllowTcpForwarding",
+      "exploit": "Authenticate to SSH and create a TCP tunnel through the host to an internal service that is not directly reachable."
+    }
+  ]
+}

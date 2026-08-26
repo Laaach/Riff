@@ -1,0 +1,59 @@
+{
+  "rules": [
+    {
+      "id": "FTP Check 001",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*anonymous_enable\\s*=\\s*YES\\b"}
+      ],
+      "description": "vsftpd permits anonymous FTP authentication.",
+      "reference": "https://security.appspot.com/vsftpd.html",
+      "exploit": "Connect to the FTP service as anonymous and access files exposed through the anonymous FTP account."
+    },
+    {
+      "id": "FTP Check 002",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*write_enable\\s*=\\s*YES\\b"}
+      ],
+      "description": "vsftpd permits FTP write operations.",
+      "reference": "https://security.appspot.com/vsftpd/vsftpd_conf.html",
+      "exploit": "Authenticate to the FTP service and upload or modify files permitted by the configured FTP account."
+    },
+    {
+      "id": "FTP Check 003",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*anon_upload_enable\\s*=\\s*YES\\b"}
+      ],
+      "description": "vsftpd permits anonymous users to upload files.",
+      "reference": "https://security.appspot.com/vsftpd/vsftpd_conf.html",
+      "exploit": "Connect anonymously and upload an attacker-controlled file to the configured anonymous FTP upload location."
+    },
+    {
+      "id": "FTP Check 004",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*anon_mkdir_write_enable\\s*=\\s*YES\\b"}
+      ],
+      "description": "vsftpd permits anonymous users to create directories.",
+      "reference": "https://security.appspot.com/vsftpd/vsftpd_conf.html",
+      "exploit": "Connect anonymously and create directories in the writable anonymous FTP location."
+    },
+    {
+      "id": "FTP Check 005",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*(PermitRootLogin|RootLogin)\\s+(yes|YES)\\b"}
+      ],
+      "description": "FTP configuration permits or references direct root authentication.",
+      "reference": "https://www.proftpd.org/docs/directives/linked/configuration.html",
+      "exploit": "Attempt authentication to the FTP service using authorized root credentials and determine whether direct privileged access is permitted."
+    }
+  ]
+}

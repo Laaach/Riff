@@ -1,0 +1,26 @@
+{
+  "rules": [
+    {
+      "id": "Env Info 001",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(?i)^(AWS_SECRET_ACCESS_KEY|AWS_SESSION_TOKEN|AZURE_CLIENT_SECRET|GITHUB_TOKEN|GH_TOKEN|GITLAB_TOKEN|NPM_TOKEN|DOCKER_PASSWORD|MYSQL_ROOT_PASSWORD|POSTGRES_PASSWORD|REDIS_PASSWORD|MONGO_URI|STRIPE_SECRET_KEY|SENDGRID_API_KEY|TWILIO_AUTH_TOKEN|SLACK_TOKEN|OPENAI_API_KEY|DATABASE_URL|DB_PASSWORD|API_KEY|API_TOKEN|SECRET_KEY|PASSWORD|PASSWD|TOKEN)="}
+      ],
+      "description": "Environment variable contains a value that may be a credential, authentication token, or application secret.",
+      "reference": "https://owasp.org/www-community/vulnerabilities/Use_of_hard-coded_password",
+      "exploit": "Read the exposed environment variable and use the recovered credential or token to authenticate to the associated service."
+    },
+    {
+      "id": "Env Info 002",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(?i)^(AWS_ACCESS_KEY_ID|AZURE_CLIENT_ID|GOOGLE_APPLICATION_CREDENTIALS)="}
+      ],
+      "description": "Environment variable exposes cloud credential configuration or an identity used for cloud authentication.",
+      "reference": "https://docs.aws.amazon.com/IAM/latest/UserGuide/security-creds.html",
+      "exploit": "Read the exposed credential material or referenced credential file and authenticate to the associated cloud account or service."
+    }
+  ]
+}

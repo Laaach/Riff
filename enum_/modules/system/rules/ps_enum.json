@@ -1,0 +1,60 @@
+{
+  "rules": [
+    {
+      "id": "Ps Enum 001",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(?i)(?:--password\\b|-p\\b)[=\\s]+\\S+"},
+        {"type": "regex", "value": "(?i)(password|passwd|pwd|token|secret|api[_-]?key|auth[_-]?token|access[_-]?key)[=:]\\S+"}
+      ],
+      "description": "Process command line contains a credential-like value.",
+      "reference": "https://man7.org/linux/man-pages/man1/ps.1.html",
+      "exploit": "Read the process command line and reuse the exposed credential or token to authenticate to the associated service."
+    },
+    {
+      "id": "Ps Enum 002",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*\\d+\\s+\\d+\\s+root\\s+root\\s+.*(?:/tmp/|/var/tmp/|/dev/shm/)\\S*"}
+      ],
+      "description": "Root process is executing a program from a temporary or shared-memory location.",
+      "reference": "https://man7.org/linux/man-pages/man1/ps.1.html",
+      "exploit": "Replace the referenced executable with attacker-controlled code when the file is writable, then wait for or trigger execution by the root process."
+    },
+    {
+      "id": "Ps Enum 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*\\d+\\s+\\d+\\s+root\\s+root\\s+.*(?:/home/|/opt/|/usr/local/)\\S*"}
+      ],
+      "description": "Root process executes a program from a non-standard application location.",
+      "reference": "https://man7.org/linux/man-pages/man1/ps.1.html",
+      "exploit": "Inspect the referenced executable and its dependencies for unprivileged write access, then replace a writable execution component to obtain root execution."
+    },
+    {
+      "id": "Ps Enum 004",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*[0-9]+\\s+[0-9]+\\s+root\\s+root\\s+.*--inspect(?:=|\\s|$)"}
+      ],
+      "description": "Root Node.js process is running with the inspector enabled.",
+      "reference": "https://nodejs.org/api/inspector.html",
+      "exploit": "Connect to an accessible Node.js inspector endpoint and use the debugging interface to execute JavaScript in the context of the Node.js process."
+    },
+    {
+      "id": "Ps Enum 005",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\s*[0-9]+\\s+[0-9]+\\s+root\\s+root\\s+.*(python|perl|ruby|php|node|bash|sh)\\b"}
+      ],
+      "description": "Root process is running an interactive or script-capable interpreter.",
+      "reference": "https://man7.org/linux/man-pages/man1/ps.1.html",
+      "exploit": "Inspect the root interpreter process for attacker-controlled scripts, writable imports, environment-controlled modules, or other execution paths that can be modified by the current user."
+    }
+  ]
+}

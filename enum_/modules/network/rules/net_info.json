@@ -1,0 +1,114 @@
+{
+  "rules": [
+    {
+      "id": "Net Info 001",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:22\\b"}
+      ],
+      "description": "Listening service on TCP port 22, commonly associated with SSH.",
+      "reference": "https://man7.org/linux/man-pages/man8/ss.8.html",
+      "exploit": "Attempt authentication against the exposed SSH service using credentials or private keys obtained during the assessment."
+    },
+    {
+      "id": "Net Info 002",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:21\\b"}
+      ],
+      "description": "Listening service on TCP port 21, commonly associated with FTP.",
+      "reference": "https://man7.org/linux/man-pages/man8/ss.8.html",
+      "exploit": "Connect to the FTP service and test for anonymous access or credentials that provide unauthorized file access."
+    },
+    {
+      "id": "Net Info 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:23\\b"}
+      ],
+      "description": "Listening service on TCP port 23, commonly associated with Telnet.",
+      "reference": "https://man7.org/linux/man-pages/man8/ss.8.html",
+      "exploit": "Attempt authentication against the exposed Telnet service and assess whether credentials provide unauthorized shell access."
+    },
+    {
+      "id": "Net Info 004",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:80\\b"}
+      ],
+      "description": "Listening service on TCP port 80, commonly associated with HTTP.",
+      "reference": "https://man7.org/linux/man-pages/man8/ss.8.html",
+      "exploit": "Enumerate the exposed web application and test its endpoints, authentication, and known attack surface."
+    },
+    {
+      "id": "Net Info 005",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:443\\b"}
+      ],
+      "description": "Listening service on TCP port 443, commonly associated with HTTPS.",
+      "reference": "https://man7.org/linux/man-pages/man8/ss.8.html",
+      "exploit": "Enumerate the exposed HTTPS application and test its authentication and application attack surface."
+    },
+    {
+      "id": "Net Info 006",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:3306\\b"}
+      ],
+      "description": "Listening service on TCP port 3306, commonly associated with MySQL or MariaDB.",
+      "reference": "https://dev.mysql.com/doc/refman/8.4/en/connecting.html",
+      "exploit": "Attempt database authentication using credentials discovered during the assessment and determine whether the database permits unauthorized access."
+    },
+    {
+      "id": "Net Info 007",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:5432\\b"}
+      ],
+      "description": "Listening service on TCP port 5432, commonly associated with PostgreSQL.",
+      "reference": "https://www.postgresql.org/docs/current/client-interfaces.html",
+      "exploit": "Attempt authentication using discovered PostgreSQL credentials and determine whether unauthorized database access is possible."
+    },
+    {
+      "id": "Net Info 008",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:6379\\b"}
+      ],
+      "description": "Listening service on TCP port 6379, commonly associated with Redis.",
+      "reference": "https://redis.io/docs/latest/operate/oss_and_stack/management/security/",
+      "exploit": "Connect to the Redis service and test whether it permits unauthenticated access or unauthorized command and data operations."
+    },
+    {
+      "id": "Net Info 009",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LISTEN.*:27017\\b"}
+      ],
+      "description": "Listening service on TCP port 27017, commonly associated with MongoDB.",
+      "reference": "https://www.mongodb.com/docs/manual/security/",
+      "exploit": "Connect to the MongoDB service and test whether authentication controls prevent unauthorized database access."
+    },
+    {
+      "id": "Net Info 010",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/hosts"}
+      ],
+      "description": "Local hosts file contents were collected and may disclose internal hostnames or addresses.",
+      "reference": "https://man7.org/linux/man-pages/man5/hosts.5.html",
+      "exploit": "Use discovered internal hostnames and addresses to identify additional systems and services accessible from the compromised host."
+    }
+  ]
+}

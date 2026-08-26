@@ -1,0 +1,27 @@
+{
+  "module": "sys_info",
+  "rules": [
+    {
+      "id": "System Info 001",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^([2-5]\\.|6\\.[0-9]+\\.)"}
+      ],
+      "description": "Older Linux kernel version detected; check the exact kernel release for known local privilege-escalation vulnerabilities.",
+      "reference": "https://www.exploit-db.com/search?type=2",
+      "exploit": "Identify a vulnerability matching the exact kernel release and execute the corresponding local privilege-escalation exploit."
+    },
+    {
+      "id": "System Info 002",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^(i[3-6]86|x86_64|aarch64|armv[5-8])$"}
+      ],
+      "description": "System architecture identified; architecture may affect the applicability of local privilege-escalation exploits.",
+      "reference": "https://man7.org/linux/man-pages/man1/uname.1.html",
+      "exploit": "Select a privilege-escalation payload compatible with the identified system architecture."
+    }
+  ]
+}

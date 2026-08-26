@@ -1,0 +1,37 @@
+{
+  "rules": [
+    {
+      "id": "Cron Enum 001",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^-.*w.*w.*\\s+\\d+\\s+root\\s+root\\s+.*"}
+      ],
+      "description": "Cron file owned by root:root is writable by group or other users.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Modify the writable root-owned cron file and add a command that executes with the privileges of the cron job."
+    },
+    {
+      "id": "Cron Enum 002",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "\\broot\\b.*(?:/tmp/|/var/tmp/|/dev/shm/)\\S*"}
+      ],
+      "description": "Root cron job executes a file from a temporary or shared-memory location.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Replace the referenced temporary-location executable or script with attacker-controlled content and wait for the root cron job to execute it."
+    },
+    {
+      "id": "Cron Enum 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "\\broot\\b.*(?:/home/|/opt/|/usr/local/)\\S*"}
+      ],
+      "description": "Root cron job executes a non-standard application path that should be checked for unprivileged write access.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Modify the referenced command or one of its writable components if accessible to the current user, then wait for the root cron job to execute it."
+    }
+  ]
+}

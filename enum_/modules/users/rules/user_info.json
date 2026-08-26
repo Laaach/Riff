@@ -1,0 +1,104 @@
+{
+  "module": "user_info",
+  "rules": [
+    {
+      "id": "User Info 001",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "uid=0\\([^)]*\\)"}
+      ],
+      "description": "Current process is running with UID 0.",
+      "reference": "https://man7.org/linux/man-pages/man1/id.1.html",
+      "exploit": "Use the current root context to perform privileged operations available to the process."
+    },
+    {
+      "id": "User Info 002",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])sudo([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the sudo group and may have elevated administrative privileges.",
+      "reference": "https://wiki.debian.org/sudo",
+      "exploit": "Run an allowed command through sudo and use the resulting privileged execution to escalate."
+    },
+    {
+      "id": "User Info 003",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])wheel([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the wheel group, commonly used to grant administrative privileges.",
+      "reference": "https://man7.org/linux/man-pages/man8/sudo.8.html",
+      "exploit": "Use the administrative privileges granted to wheel members to execute an allowed command with elevated privileges."
+    },
+    {
+      "id": "User Info 004",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])docker([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the docker group and may control the Docker daemon.",
+      "reference": "https://docs.docker.com/engine/security/#docker-daemon-attack-surface",
+      "exploit": "Use Docker daemon access to create a privileged container with access to the host filesystem and obtain host-level root execution."
+    },
+    {
+      "id": "User Info 005",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])lxd([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the lxd group and may control the LXD daemon.",
+      "reference": "https://documentation.ubuntu.com/lxd/",
+      "exploit": "Use LXD to create or launch a privileged container with access to the host filesystem and obtain host-level root execution."
+    },
+    {
+      "id": "User Info 006",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])lxc([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the lxc group, which may provide access to privileged LXC management operations.",
+      "reference": "https://linuxcontainers.org/lxc/introduction/",
+      "exploit": "Use available LXC management privileges to create or access a privileged container and attempt to obtain host-level access."
+    },
+    {
+      "id": "User Info 007",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])adm([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the adm group, which commonly provides access to system logs and administrative information.",
+      "reference": "https://wiki.debian.org/SystemGroups",
+      "exploit": "Read accessible system logs and search them for credentials, secrets, or other information that can be used for privilege escalation."
+    },
+    {
+      "id": "User Info 008",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])disk([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the disk group and may have direct access to block devices.",
+      "reference": "https://wiki.debian.org/SystemGroups",
+      "exploit": "Use permitted block-device access to read or modify protected filesystem data and obtain sensitive credentials or privileged configuration."
+    },
+    {
+      "id": "User Info 009",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|[=(,\\s])shadow([=),\\s]|$)"}
+      ],
+      "description": "Current user belongs to the shadow group and may be able to read password hashes.",
+      "reference": "https://man7.org/linux/man-pages/man5/shadow.5.html",
+      "exploit": "Read password hashes from /etc/shadow and attempt offline password recovery against accounts with reusable credentials."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "module": "users_enum",
+  "rules": [
+    {
+      "id": "Users Enum 001",
+      "severity": "expected",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "\\broot\\b"},
+        {"type": "regex", "value": "SUPER USERS"}
+      ],
+      "description": "The root account is present as an active UID 0 account.",
+      "reference": "https://man7.org/linux/man-pages/man5/passwd.5.html",
+      "exploit": "Authenticate as root using valid root credentials or an authorized root authentication mechanism."
+    },
+    {
+      "id": "Users Enum 002",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "SUPER USERS.*,"}
+      ],
+      "description": "Multiple active UID 0 accounts are present.",
+      "reference": "https://man7.org/linux/man-pages/man5/passwd.5.html",
+      "exploit": "Identify the additional UID 0 account"
+    },
+    {
+      "id": "Users Enum 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "SUPER USERS.*\\b(?!root\\b)[a-zA-Z0-9._-]+\\b"}
+      ],
+      "description": "An active UID 0 account other than root is present.",
+      "reference": "https://man7.org/linux/man-pages/man5/passwd.5.html",
+      "exploit": "Identify the non-root UID 0 account and attempt to authenticate using its available credentials or authorized authentication mechanism."
+    }
+  ]
+}

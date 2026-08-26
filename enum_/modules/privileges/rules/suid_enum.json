@@ -1,0 +1,15 @@
+{
+  "rules": [
+    {
+      "id": "SUID Enum 001",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "sgfgdsgdsguigbsugbuisdgfbui"}
+      ],
+      "description": "",
+      "reference": "",
+      "exploit": ""
+    }
+  ]
+}

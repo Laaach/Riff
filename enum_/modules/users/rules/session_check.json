@@ -1,0 +1,27 @@
+{
+  "module": "session_check",
+  "rules": [
+    {
+      "id": "Session Check 001",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^root\\s+\\S+"}
+      ],
+      "description": "Root user currently has an active login session.",
+      "reference": "https://man7.org/linux/man-pages/man1/who.1.html",
+      "exploit": "Inspect the active root session for an accessible terminal or session resource and attempt session reuse only where authorized."
+    },
+    {
+      "id": "Session Check 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^\\S+\\s+(?:pts/\\d+|tty\\d+)\\s+.*\\([^)]*\\)$"}
+      ],
+      "description": "An interactive user session with a recorded remote source is active.",
+      "reference": "https://man7.org/linux/man-pages/man1/who.1.html",
+      "exploit": "Identify the active session and assess whether the associated terminal or credentials are accessible to the current user."
+    }
+  ]
+}

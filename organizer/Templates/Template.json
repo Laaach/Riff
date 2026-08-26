@@ -1,0 +1,224 @@
+{
+    "name": "Linux Privilege Escalation Checklist",
+    "author": "Laach",
+    "description": "Linux local privilege escalation assessment checklist covering common escalation vectors",
+    "items": [
+        {
+            "category": "System Information",
+            "question": "Was OS, kernel, and architecture information collected?",
+            "hint": "uname -a; cat /etc/os-release; arch; Riff (sysinfo)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Users & Groups",
+            "question": "Were users, groups, and privilege memberships enumerated?",
+            "hint": "id; whoami; groups; cat /etc/passwd; last; Riff (userinfo, users_list)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Kernel Exploits",
+            "question": "Is the kernel vulnerable to known local privilege escalation exploits?",
+            "hint": "uname -r; search kernel version vulnerabilities",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Sudo",
+            "question": "Does the current user have dangerous sudo privileges?",
+            "hint": "sudo -l; Riff (sudo_list)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "SUID/SGID",
+            "question": "Are there unusual SUID/SGID binaries with escalation potential?",
+            "hint": "find / -perm -4000 -o -perm -2000 2>/dev/null; Riff (suids_sgids)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Linux Capabilities",
+            "question": "Are binaries assigned exploitable Linux capabilities?",
+            "hint": "getcap -r / 2>/dev/null; Riff (capabilities)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Cron Jobs",
+            "question": "Are root cron jobs executing writable scripts or binaries?",
+            "hint": "cat /etc/crontab; crontab -l; ls -la /etc/cron.*; Riff (cron_jobs)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Systemd Services",
+            "question": "Are privileged services using writable files or unsafe configurations?",
+            "hint": "systemctl list-units; inspect service definitions",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Processes",
+            "question": "Are root processes using vulnerable applications or scripts?",
+            "hint": "ps auxww; pspy; Riff (ps_dump)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Running Services",
+            "question": "Are local services vulnerable due to configuration issues?",
+            "hint": "systemctl --type=service; ss -tulpn",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Network Services",
+            "question": "Are exposed local services misconfigured or outdated?",
+            "hint": "ss -tulpn; netstat -tulpn; Riff (netinfo)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Writable Files",
+            "question": "Can the current user modify privileged files?",
+            "hint": "find / -writable -type f 2>/dev/null; Riff (etc_read_write, /etc only)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Writable Directories",
+            "question": "Are privileged execution directories writable?",
+            "hint": "find / -type d -writable 2>/dev/null",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "ACL Permissions",
+            "question": "Are file ACLs granting unexpected privileges?",
+            "hint": "getfacl; inspect sensitive directories",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "PATH Hijacking",
+            "question": "Can PATH manipulation influence privileged execution?",
+            "hint": "echo $PATH; inspect root scripts for relative command execution",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "PATH Permissions",
+            "question": "Are PATH directories writable by unprivileged users?",
+            "hint": "echo $PATH; check directory ownership",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Library Hijacking",
+            "question": "Are privileged applications loading writable libraries?",
+            "hint": "ldd binaries; inspect library paths",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Environment Variables",
+            "question": "Can environment variables affect privileged execution?",
+            "hint": "env; inspect sudo environment handling; Riff (envinfo)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Credentials",
+            "question": "Were plaintext passwords found on the filesystem?",
+            "hint": "Search configuration files and user directories",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "SSH Keys",
+            "question": "Were accessible SSH private keys discovered?",
+            "hint": "find / -name id_rsa -o -name '*.pem'; Riff (homedir)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "SSH Configuration",
+            "question": "Are SSH configurations enabling privilege escalation?",
+            "hint": "Inspect sshd_config and authorized_keys; Riff (ssh_ftp_check)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Shell History",
+            "question": "Were sensitive commands or credentials found in shell history?",
+            "hint": "cat ~/.bash_history ~/.zsh_history; Riff (homedir)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Password Files",
+            "question": "Can password hashes or shadow files be accessed?",
+            "hint": "ls -la /etc/shadow /etc/passwd; Riff (etc_read_write)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Password Reuse",
+            "question": "Can discovered credentials authenticate as privileged users?",
+            "hint": "Validate discovered credentials where authorized",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Installed Software",
+            "question": "Are installed applications vulnerable or misconfigured?",
+            "hint": "dpkg -l; rpm -qa; snap list",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "NFS",
+            "question": "Are insecure NFS exports or mounts enabling escalation?",
+            "hint": "showmount -e; inspect /etc/exports; Riff (nfs_exports)",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Docker",
+            "question": "Does the user have Docker administrative privileges?",
+            "hint": "groups; docker ps; inspect docker socket permissions",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "LXC/LXD",
+            "question": "Does the user have LXC/LXD administrative access?",
+            "hint": "groups; lxc list",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Mount Permissions",
+            "question": "Are mounted filesystems configured insecurely?",
+            "hint": "mount; cat /etc/fstab",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Interesting Files",
+            "question": "Were backup files, configs, or hidden secrets discovered?",
+            "hint": "Search for backup files and configuration artifacts",
+            "status": "not found",
+            "note": ""
+        },
+        {
+            "category": "Automated Enumeration",
+            "question": "Was automated privilege escalation enumeration performed?",
+            "hint": "linpeas; linux-exploit-suggester; pspy; Riff",
+            "status": "not found",
+            "note": ""
+        }
+    ]
+}

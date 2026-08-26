@@ -1,0 +1,61 @@
+{
+  "rules": [
+    {
+      "id": "Sudo Enum 001",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "NOPASSWD:"},
+        {"type": "regex", "value": "\\(ALL\\s*:\\s*ALL\\)\\s+ALL"},
+        {"type": "regex", "value": "\\(ALL\\)\\s+ALL"}
+      ],
+      "description": "sudo privileges include unrestricted command execution as root, potentially without requiring a password.",
+      "reference": "https://man7.org/linux/man-pages/man8/sudo.8.html",
+      "exploit": "Use the granted sudo rule to execute a shell or other command with root privileges."
+    },
+    {
+      "id": "Sudo Enum 002",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "\\(root\\)\\s+(/\\S+|ALL)"}
+      ],
+      "description": "sudo permission permits execution of a command as root.",
+      "reference": "https://man7.org/linux/man-pages/man5/sudoers.5.html",
+      "exploit": "Execute the permitted command as root and abuse its functionality to obtain a root shell or modify the system."
+    },
+    {
+      "id": "Sudo Enum 003",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "SETENV"}
+      ],
+      "description": "sudo rule permits environment modification through SETENV.",
+      "reference": "https://man7.org/linux/man-pages/man5/sudoers.5.html",
+      "exploit": "Execute an allowed command as root while supplying attacker-controlled environment variables and abuse environment-sensitive behavior."
+    },
+    {
+      "id": "Sudo Enum 004",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "LD_PRELOAD"}
+      ],
+      "description": "sudo output indicates LD_PRELOAD is permitted or preserved in the execution environment.",
+      "reference": "https://man7.org/linux/man-pages/man8/sudo.8.html",
+      "exploit": "Use an allowed privileged execution path with a preserved dynamic-loader environment to load attacker-controlled code into a privileged process."
+    },
+    {
+      "id": "Sudo Enum 005",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "\\(root\\)|\\(ALL"}
+      ],
+      "description": "sudo rule grants execution as root or another unrestricted target user and requires manual command-level review.",
+      "reference": "https://man7.org/linux/man-pages/man5/sudoers.5.html",
+      "exploit": "Execute the permitted program with elevated privileges and determine whether its functionality can be used to escape the intended sudo restriction."
+    }
+  ]
+}

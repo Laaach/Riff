@@ -1,0 +1,15 @@
+{
+  "rules": [
+    {
+      "id": "NFS Check 001",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "no_root_squash"}
+      ],
+      "description": "NFS export has no_root_squash, root on client maps to root on server",
+      "reference": "https://attack.mitre.org/techniques/T1611/",
+      "exploit": "https://github.com/Divinemonk/linux_privesc_cheatsheet?utm_source=chatgpt.com#nfs-root-squashing"
+    }
+  ]
+}

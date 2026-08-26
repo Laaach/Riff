@@ -1,0 +1,103 @@
+{
+  "rules": [
+    {
+      "id": "Etc Scan 001",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/passwd$"}
+      ],
+      "description": "World-writable /etc/passwd.",
+      "reference": "https://man7.org/linux/man-pages/man5/passwd.5.html",
+      "exploit": "Modify the passwd database to change an existing privileged account or introduce an account with UID 0, then authenticate as that account."
+    },
+    {
+      "id": "Etc Scan 002",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/shadow$"}
+      ],
+      "description": "World-readable or world-writable /etc/shadow.",
+      "reference": "https://man7.org/linux/man-pages/man5/shadow.5.html",
+      "exploit": "Read the password hashes and perform offline password recovery, or modify an account's password hash when the file is writable."
+    },
+    {
+      "id": "Etc Scan 003",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/group$"}
+      ],
+      "description": "World-writable /etc/group.",
+      "reference": "https://man7.org/linux/man-pages/man5/group.5.html",
+      "exploit": "Modify membership of a privileged local group, add the attacker's account to that group, and use the resulting group privileges."
+    },
+    {
+      "id": "Etc Scan 004",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/gshadow$"}
+      ],
+      "description": "World-writable /etc/gshadow.",
+      "reference": "https://man7.org/linux/man-pages/man5/gshadow.5.html",
+      "exploit": "Modify protected group authentication data or group membership information to obtain access associated with a protected group."
+    },
+    {
+      "id": "Etc Scan 005",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/sudoers$"}
+      ],
+      "description": "World-writable /etc/sudoers.",
+      "reference": "https://man7.org/linux/man-pages/man5/sudoers.5.html",
+      "exploit": "Modify sudo policy to grant the attacker's account unrestricted sudo access, then use sudo to execute commands as root."
+    },
+    {
+      "id": "Etc Scan 006",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/sudoers\\.d/[^/]+$"}
+      ],
+      "description": "World-writable sudoers.d policy file.",
+      "reference": "https://man7.org/linux/man-pages/man5/sudoers.5.html",
+      "exploit": "Modify an included sudo policy to grant the attacker's account unrestricted sudo access, then use sudo to execute commands as root."
+    },
+    {
+      "id": "Etc Scan 007",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/crontab$"}
+      ],
+      "description": "World-writable system crontab.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Modify a scheduled root-owned cron entry so that the cron daemon executes attacker-controlled commands with the privileges specified by the job."
+    },
+    {
+      "id": "Etc Scan 008",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/cron\\.d/[^/]+$"}
+      ],
+      "description": "World-writable cron.d entry.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Modify or replace the scheduled job so that the cron daemon executes attacker-controlled commands under the account specified by the cron entry."
+    },
+    {
+      "id": "Etc Scan 009",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/etc/ssh/sshd_config$"}
+      ],
+      "description": "World-writable SSH daemon configuration.",
+      "reference": "https://man7.org/linux/man-pages/man5/sshd_config.5.html",
+      "exploit": "Modify SSH authentication or access-control settings, wait for the daemon to reload the configuration, and use the resulting authentication weakness for unauthorized access."
+    }
+  ]
+}

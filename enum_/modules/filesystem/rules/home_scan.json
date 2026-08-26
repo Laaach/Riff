@@ -1,0 +1,70 @@
+{
+  "rules": [
+    {
+      "id": "Home Scan 001",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/\\.ssh$"}
+      ],
+      "description": "User SSH directory discovered.",
+      "reference": "https://man7.org/linux/man-pages/man5/ssh_config.5.html",
+      "exploit": "Inspect the SSH directory for credentials, private keys, authorized keys, or configuration that can provide access to another account or system."
+    },
+    {
+      "id": "Home Scan 002",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/\\.bash_history$"}
+      ],
+      "description": "Bash command history discovered in a user home directory.",
+      "reference": "https://www.gnu.org/software/bash/manual/html_node/Bash-History-Builtins.html",
+      "exploit": "Search the history for passwords, tokens, API keys, connection strings, or previously executed privileged commands."
+    },
+    {
+      "id": "Home Scan 003",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/\\.zsh_history$"}
+      ],
+      "description": "Zsh command history discovered in a user home directory.",
+      "reference": "https://zsh.sourceforge.io/Doc/Release/Parameters.html",
+      "exploit": "Search the history for passwords, tokens, API keys, connection strings, or other credentials supplied through shell commands."
+    },
+    {
+      "id": "Home Scan 004",
+      "severity": "flagged_secret",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "/\\.mysql_history$"}
+      ],
+      "description": "MySQL command history discovered in a user home directory.",
+      "reference": "https://dev.mysql.com/doc/refman/8.4/en/mysql-history.html",
+      "exploit": "Search the history for database credentials, sensitive connection information, or queries containing secrets."
+    },
+    {
+      "id": "Home Scan 005",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^.* <-- SSH PRIVATE KEY FOUND$"}
+      ],
+      "description": "SSH private key discovered in a user home directory.",
+      "reference": "https://man.openbsd.org/ssh",
+      "exploit": "Use the discovered private key to authenticate to systems or accounts where the corresponding public key is authorized."
+    },
+    {
+      "id": "Home Scan 008",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^/root/.* <-- SSH PRIVATE KEY FOUND$"}
+      ],
+      "description": "Private key discovered in the root user's home directory.",
+      "reference": "https://man.openbsd.org/ssh",
+      "exploit": "Use the root-owned private key to attempt authentication to systems where the corresponding public key is authorized."
+    }
+  ]
+}
