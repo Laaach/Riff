@@ -62,7 +62,6 @@ python3 riff.py --output riff-output.txt
 | `--skip-loading` | Disable the loading animation. |
 | `--summary` | Print the findings summary after module output. |
 | `--list-modules` | Show the list of available modules. |
-| `--default` | Include known/default SUID and SGID binaries. |
 | `--no-colors` | Disable ANSI colour output. |
 
 `--silent` and `--verbose` are incompatible.
