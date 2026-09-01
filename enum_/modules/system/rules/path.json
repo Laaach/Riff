@@ -1,0 +1,37 @@
+{
+  "rules": [
+    {
+      "id": "Path Enum 001",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|:)/tmp(/|:|$)"}
+      ],
+      "description": "PATH contains /tmp, which may be writable by an unprivileged user and can influence command resolution.",
+      "reference": "https://attack.mitre.org/techniques/T1574/007/",
+      "exploit": "Check whether /tmp is writable and whether a privileged process executes commands using this PATH."
+    },
+    {
+      "id": "Path Enum 002",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|:)/home(/|:|$)"}
+      ],
+      "description": "PATH contains /home, which may contain directories writable by an unprivileged user and can influence command resolution.",
+      "reference": "https://attack.mitre.org/techniques/T1574/007/",
+      "exploit": "Check whether the relevant /home directory is writable and whether a privileged process executes commands using this PATH."
+    },
+    {
+      "id": "Path Enum 003",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "(^|:)/opt(/|:|$)"}
+      ],
+      "description": "PATH contains /opt, which may contain directories writable by an unprivileged user and can influence command resolution.",
+      "reference": "https://attack.mitre.org/techniques/T1574/007/",
+      "exploit": "Check whether the relevant /opt directory is writable and whether a privileged process executes commands using this PATH."
+    }
+  ]
+}

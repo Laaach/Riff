@@ -1,0 +1,60 @@
+{
+  "rules": [
+    {
+      "id": "Cron Enum 001",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {
+          "type": "regex",
+          "value": "^-.*w.*w.*\\s+\\d+\\s+root\\s+root\\s+.*"
+        }
+      ],
+      "description": "A root-owned cron file is writable by the group or other users, allowing an unprivileged user to modify the scheduled tasks.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Modify the writable root-owned cron file to add or alter a command, causing it to execute with the privileges of the associated root cron job."
+    },
+    {
+      "id": "Cron Enum 002",
+      "severity": "direct_root",
+      "match": "any",
+      "conditions": [
+        {
+          "type": "regex",
+          "value": "(?:/tmp/|/var/tmp/|/dev/shm/|/home/|/opt/)\\S*"
+        }
+      ],
+      "description": "Cron job references an executable or script under a temporary or shared-memory location.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Check whether the referenced file or any component of its path is writable by an unprivileged user and whether the cron job executes with elevated privileges."
+    },
+    {
+      "id": "Cron Enum 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {
+          "type": "regex",
+          "value": "\\broot\\b.*(?:/home/|/usr/local/)\\S*"
+        }
+      ],
+      "description": "A root cron job references an executable or script in a non-standard application or user-controlled path and should be checked for unprivileged write access.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Determine whether the referenced file or any parent directory is writable by an unprivileged user. Writable components could allow the executed content to be altered before the root cron job runs."
+    },
+    {
+      "id": "Cron Enum 004",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {
+          "type": "regex",
+          "value": "\\broot\\b.*(?:/opt/)\\S*"
+        }
+      ],
+      "description": "A root cron job references an executable or script under /opt/, which should be reviewed to ensure the path and its contents are appropriately protected from unprivileged modification.",
+      "reference": "https://man7.org/linux/man-pages/man5/crontab.5.html",
+      "exploit": "Check the referenced file and each parent directory for unprivileged write access. If a writable component can influence the executed command, it may be possible to modify the content executed by the root cron job."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import os
 
-def env_info():
+def environment():
     result = [f"{name}={value}" for name, value in os.environ.items()]
 
     raw = {

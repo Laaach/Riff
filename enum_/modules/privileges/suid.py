@@ -25,7 +25,7 @@ default_suids = [
 ]
 
 
-def suid_enum(show_default):
+def suid(show_default):
     suids, _ = filter_suid_sgid()
 
     if not show_default:

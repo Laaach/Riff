@@ -1,6 +1,6 @@
 from enum_.shared.utils import run_command
 
-def net_info():
+def network():
 
 	ip_a = run_command(['ip', 'a'])
 	ss_tuln = run_command(['ss', '-tuln'])

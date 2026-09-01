@@ -1,6 +1,6 @@
 import subprocess
 
-def nfs_check():
+def nfs():
 	try:
 		with open('/etc/exports', 'r') as exports_file:
 			content = exports_file.read().strip()
@@ -9,7 +9,7 @@ def nfs_check():
 
 	if not content:
 		try:
-			result = subprocess.run(['showmount', '-e', 'localhost'], capture_output=True, text=True, timeout=6)
+			result = subprocess.run(['showmount', '-e', 'localhost'], capture_output=True, text=True, timeout=2)
 			content = result.stdout.strip() if result.returncode == 0 else "showmount failed or no exports"
 		except subprocess.TimeoutExpired:
 			content = "showmount timed out (NFS service likely not responding)"

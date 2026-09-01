@@ -1,6 +1,6 @@
 from enum_.shared.utils import run_command
 
-def ps_enum():
+def processes():
 
 	output = run_command(['ps', '-eo', 'pid,ppid,ruser,rgroup,args', 'ww', '--forest'])
 

@@ -1,9 +1,7 @@
 import concurrent.futures
 import os
 import sys
-import warnings
 
-warnings.filterwarnings("ignore", category=FutureWarning)
 from core.engine.cli import module_choice
 from core.engine.runner.registry import registry
 from core.engine.runner.dispatch import dispatch
@@ -22,6 +20,31 @@ print_banner()
 
 mode , args = module_choice()
 
+if mode == "enum" and args.list_modules:
+	print("""Available modules
+=================
+
+  system          System information
+  network         Network information
+  identity        Current user identity (id, groups)
+  environment     Environment variables
+  users           System users (regular vs UID 0 super users)
+  sudo            sudo -l output
+  etc             World-readable/writable files in /etc
+  processes       Process information
+  ssh             SSH configuration
+  ftp             FTP configuration
+  home            Targeted home directory scan
+  cron            Cronjobs
+  capabilities    Linux capabilities
+  suid            SUID binaries
+  sgid            SGID binaries
+  nfs             NFS configuration and exports
+  sessions        Currently logged users
+  path            Current user PATH
+""")
+	sys.exit()
+
 try:
 	is_color = not args.no_colors
 except AttributeError:
@@ -34,7 +57,6 @@ try:
 			args.summary = True
 
 		modules_to_run = registry(args.fast, args.modules, args.exclude, args.skip_loading, args.default, args.password)
-
 
 		def run_module(module_name, function):
 			try:
@@ -63,8 +85,6 @@ try:
 				matched_rules_data.extend(dispatch(module_name, args.output, is_color, raw,args.verbose, args.silent, args.trim))
 			except Exception as error:
 				print(f"[!] {module_name} output/rules failed: "f"{type(error).__name__}: {error}", file=sys.stderr)
-
-
 
 		if args.summary:
 			print_summary(matched_rules_data, is_color)

@@ -1,6 +1,6 @@
 import subprocess
 
-def cap_enum():
+def capabilities():
 
     try:
         result = subprocess.run(["getcap", "-r", "/"], text=True, capture_output=True)

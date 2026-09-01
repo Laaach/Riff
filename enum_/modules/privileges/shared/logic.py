@@ -16,7 +16,7 @@ def filter_suid_sgid():
         if not suids and not sgids:
             suids = []
             sgids = []
-            suids_sgids = subprocess.run(['find', '/', '(', '-path', '/proc', '-o', '-path', '/var/lib/docker', '-o', '-path', '/snap', ')', '-prune','-o', '-type', 'f', '(', '-perm', '-u=s', '-o', '-perm', '-g=s', ')', '-print'], text=True,stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).stdout.splitlines()
+            suids_sgids = subprocess.run(['find', '/', '-xdev', '(', '-path', '/proc', '-o', '-path', '/sys', '-o', '-path', '/var/lib/docker', '-o', '-path', '/snap', ')', '-prune', '-o', '-type', 'f', '(', '-perm', '-u=s', '-o', '-perm', '-g=s', ')', '-print'], text=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL).stdout.splitlines()
 
             for path in suids_sgids:
                 mode = os.stat(path).st_mode

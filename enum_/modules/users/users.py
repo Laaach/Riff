@@ -1,4 +1,4 @@
-def users_enum():
+def users():
 
 	users = []
 	super_users = []

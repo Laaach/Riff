@@ -78,46 +78,26 @@ Available modes:
   finding across all modules, separate from the full per-module
   output.
 
-  {BG_BLUE}WARNINGS:{RESET}
-    {BG_CYAN}- BY DEFAULT RUNS ALL MODULES{RESET}
-    {BG_CYAN}- IF RIFF ASKS FOR A PASSWORD AND YOU DON'T KNOW IT, PRESS ENTER TO SKIP; OTHER MODULES WILL CONTINUE{RESET}
-    {BG_CYAN}- FIRST RUN WILL BE LONGER (1 min) NEXT ARE AROUND 9 sec{RESET}
-
   Includes references to my favorites bands.
 
 Available modules:
-  sys_info         System information
-  net_info         Network information
-  user_info        Current user information (id, groups)
-  env_info         Environment variables
-  users_enum       System users (regular vs UID 0 super users)
-  sudo_enum        sudo -l output
-  etc_scan         World-readable/writable files in /etc
-  ps_enum          Dumps `ps -eo pid,ppid,ruser,rgroup,args ww --forest`
-  ssh_check        Checks SSH config for basic misconfigurations
-  ftp_check        Checks FTP config for basic misconfigurations
-  home_scan        Targeted home directory scan (SSH keys, folders, shell history — not a full directory dump)
-  cron_enum        Looks for cronjobs
-  cap_enum         Linux capabilities scan
-  suid_enum        SUID binaries
-  sgid_enum        SGID binaries
-  nfs_check        Shows '/etc/exports', as fallback showmount -e localhost (no_root_squash check)
-  session_check    Shows currently logged users.
+    Use --list-modules to see a list of available modules
 	""",
             formatter_class=argparse.RawTextHelpFormatter
         )
 
-        enum_parser.add_argument("--skip-loading", action="store_true", help="Skip the loading bar animation")
-        enum_parser.add_argument("--modules", "-m", nargs="+", help="Run only specific modules (space separated names)")
-        enum_parser.add_argument("--exclude", "-x", nargs="+", help="Exclude modules from the run (space separated names)")
-        enum_parser.add_argument("--fast", "-f", action="store_true",help="Skip suids/sgids and capabilities.")
-        enum_parser.add_argument("--summary", action="store_true", help="Shows summary")
-        enum_parser.add_argument("--default", default=False , action="store_true", help="Shows default suids/sgids. (Default OFF)")
-        enum_parser.add_argument("--output", "-o", help="Write output to a file")
-        enum_parser.add_argument("--verbose", "-v", action="store_true", help="Turn off line limit per module. Potentially very messy/long output")
-        enum_parser.add_argument("--silent", "-s", action="store_true", help="Turn off module output shows only summary")
-        enum_parser.add_argument("--trim", "-t", type=int , default=45 , help="Amount of line shown before trimming module output (Default 45, doesnt affect small modules that produce few lines)")
-        enum_parser.add_argument("--password", "-p", help="Password for sudo")
-        enum_parser.add_argument("--no-colors", action="store_true", default=False, help="Print output without ANSI colors")
+        enum_parser.add_argument("--modules", "-m", nargs="+", help="run only specific modules (space separated)")
+        enum_parser.add_argument("--exclude", "-x", nargs="+", help="exclude modules from the run (space separated)")
+        enum_parser.add_argument("--fast", "-f", action="store_true", help="skip SUIDs, SGIDs and capabilities")
+        enum_parser.add_argument("--output", "-o", help="write output to a file")
+        enum_parser.add_argument("--verbose", "-v", action="store_true", help="disable line limit per module")
+        enum_parser.add_argument("--silent", "-s", action="store_true", help="show only summary")
+        enum_parser.add_argument("--trim", "-t", type=int, default=45, help="lines shown before trimming (default: 45)")
+        enum_parser.add_argument("--password", "-p", help="password for sudo")
+        enum_parser.add_argument("--skip-loading", action="store_true", help="skip the loading bar animation")
+        enum_parser.add_argument("--summary", action="store_true", help="show summary")
+        enum_parser.add_argument("--list-modules", action="store_true", default=False , help="show available modules")
+        enum_parser.add_argument("--default", default=False, action="store_true", help="show default SUIDs/SGIDs (default: off)")
+        enum_parser.add_argument("--no-colors", action="store_true", default=False, help="disable ANSI colors")
 
         return "enum" , enum_parser.parse_args(enum_args)

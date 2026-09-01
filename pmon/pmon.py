@@ -23,7 +23,7 @@ def _process_start_ticks(pid):
     try:
         with open(f"/proc/{pid}/stat") as stat_file:
             stat = stat_file.read()
-    except (FileNotFoundError, PermissionError):
+    except (FileNotFoundError, PermissionError, ProcessLookupError):
         return None
 
     return _parse_stat(stat)
@@ -45,7 +45,7 @@ def _get_process_info(pid):
         with open(f"/proc/{pid}/status") as status_file:
             status = status_file.read().splitlines()
 
-    except (FileNotFoundError, PermissionError):
+    except (FileNotFoundError, PermissionError , OSError, ProcessLookupError):
         return None
 
     if not cmdline:
@@ -78,7 +78,11 @@ def _warmup_processes_seen():
         for entry in proc:
             if not entry.name.isdigit():
                 continue
-            start_ticks = _process_start_ticks(entry.name)
+
+            try:
+                start_ticks = _process_start_ticks(entry.name)
+            except ProcessLookupError:
+                continue
             if start_ticks is not None:
                 processes_seen[entry.name] = start_ticks
 

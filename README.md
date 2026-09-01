@@ -35,10 +35,10 @@ Useful examples:
 python3 riff.py --fast
 
 # Run only named modules.
-python3 riff.py --modules sys_info net_info sudo_enum --skip-loading
+python3 riff.py --modules system network sudo --skip-loading
 
 # Omit named modules from the normal scan.
-python3 riff.py --exclude home_scan ps_enum
+python3 riff.py --exclude home processes
 
 # Print only the findings summary.
 python3 riff.py --silent --no-colors
@@ -53,14 +53,15 @@ python3 riff.py --output riff-output.txt
 | --- | --- |
 | `-m`, `--modules NAME [NAME ...]` | Run only the selected modules. |
 | `-x`, `--exclude NAME [NAME ...]` | Exclude modules from the normal scan. |
-| `-f`, `--fast` | Skip `suid_enum`, `sgid_enum`, and `cap_enum`. |
-| `--skip-loading` | Disable the loading animation. |
-| `--summary` | Print the findings summary after module output. |
-| `-s`, `--silent` | Suppress module output and show the summary. |
+| `-f`, `--fast` | Skip `suid`, `sgid`, and `capabilities`. |
 | `-o`, `--output FILE` | Append module output to `FILE`. |
 | `-v`, `--verbose` | Do not trim long module output. |
+| `-s`, `--silent` | Suppress module output and show the summary. |
 | `-t`, `--trim N` | Show at most `N` lines in long sections; default: `45`. |
-| `-p`, `--password PASSWORD` | Supply a password to `sudo -lS` for `sudo_enum`. |
+| `-p`, `--password PASSWORD` | Supply a password to `sudo -lS` for `sudo`. |
+| `--skip-loading` | Disable the loading animation. |
+| `--summary` | Print the findings summary after module output. |
+| `--list-modules` | Show the list of available modules. |
 | `--default` | Include known/default SUID and SGID binaries. |
 | `--no-colors` | Disable ANSI colour output. |
 
@@ -72,23 +73,24 @@ Use these exact names with `--modules` and `--exclude`:
 
 | Module | Purpose |
 | --- | --- |
-| `sys_info` | Host, kernel, architecture, and OS information. |
-| `user_info` | Current identity, username, and shell. |
-| `net_info` | `/etc/hosts`, interfaces, and listening sockets. |
-| `env_info` | Environment variables. |
-| `users_enum` | Login-capable users and UID 0 accounts. |
-| `sudo_enum` | `sudo -lS` output when a password is supplied. |
-| `etc_scan` | Top-level world-readable or world-writable files in `/etc`. |
-| `ps_enum` | Process tree from `ps`. |
-| `ssh_check` | Active SSH daemon configuration values. |
-| `ftp_check` | Active vsftpd and ProFTPD configuration values. |
-| `nfs_check` | `/etc/exports`, with a `showmount` fallback. |
-| `cron_enum` | System cron jobs and cron directories. |
-| `home_scan` | Home-directory SSH folders, history files, and private keys in `.ssh`. |
-| `cap_enum` | File capabilities from `getcap -r /`. |
-| `suid_enum` | Non-default SUID files. |
-| `sgid_enum` | Non-default SGID files. |
-| `session_check` | Currently logged-in users. |
+| `system` | Host, kernel, architecture, and OS information. |
+| `identity` | Current identity, username, and shell. |
+| `network` | `/etc/hosts`, interfaces, and listening sockets. |
+| `environment` | Environment variables. |
+| `users` | Login-capable users and UID 0 accounts. |
+| `sudo` | `sudo -lS` output when a password is supplied. |
+| `etc` | Top-level world-readable or world-writable files in `/etc`. |
+| `processes` | Process tree from `ps`. |
+| `ssh` | Active SSH daemon configuration values. |
+| `ftp` | Active vsftpd and ProFTPD configuration values. |
+| `nfs` | `/etc/exports`, with a `showmount` fallback. |
+| `cron` | System cron jobs and cron directories. |
+| `home` | Home-directory SSH folders, history files, and private keys in `.ssh`. |
+| `capabilities` | File capabilities from `getcap -r /`. |
+| `suid` | Non-default SUID files. |
+| `sgid` | Non-default SGID files. |
+| `sessions` | Currently logged-in users. |
+| `path` | Current user's `PATH` environment variable. |
 
 ## Process monitor
 

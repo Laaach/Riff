@@ -3,7 +3,7 @@ import stat
 import subprocess
 
 
-def etc_scan():
+def etc():
 
 	output = []
 

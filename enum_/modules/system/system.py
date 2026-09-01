@@ -1,6 +1,6 @@
 from enum_.shared.utils import run_command
 
-def sys_info() -> tuple:
+def system() -> tuple:
 
 	hostname = run_command(['hostname'])
 	kernel_release = run_command(['uname', '-r'])

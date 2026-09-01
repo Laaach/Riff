@@ -2,13 +2,16 @@ import os
 def _users_from_etc_passwd():
 	users_homes = []
 
+	bad_shells = ['/bin/sync', '/bin/false', '/usr/sbin/nologin', '/sbin/nologin', '/bin/nologin', '/bin/true']
+	bad_homes = ["/", "", "/var", "/dev", "/proc", "/sys"]
+
 	with open("/etc/passwd", 'r', encoding='UTF-8') as etc_passwd:
 		etc_passwd = etc_passwd.readlines()
 
 	for line in etc_passwd:
 		line = line.strip().split(':')
 
-		if line[6] in ['/bin/sync', '/bin/false', '/usr/sbin/nologin', '/bin/true']:
+		if (user_shell := line[6]) in bad_shells or (user_home := line[5]) in bad_homes:
 			continue
 
 		users_homes.append(line[5])
@@ -70,7 +73,7 @@ def _home_folder_scan():
 	return ssh_folders, history_files, private_keys
 
 
-def home_scan():
+def home():
 	ssh_folders, history_files, private_keys = _home_folder_scan()
 
 	ssh_folders_str = "\n".join(ssh_folders)

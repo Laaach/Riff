@@ -15,7 +15,7 @@ default_sgids = [
     "/usr/lib/xorg/Xorg.wrap",
 ]
 
-def sgid_enum(show_default):
+def sgid(show_default):
     _, sgids = filter_suid_sgid()
 
     if not show_default:

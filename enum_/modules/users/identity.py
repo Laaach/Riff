@@ -2,7 +2,7 @@ import os
 from enum_.shared.utils import run_command
 
 
-def user_info() -> tuple:
+def identity() -> tuple:
 
 	id_ = run_command(['id'])
 	whoami = run_command(['whoami'])
