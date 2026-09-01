@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+from enum_.core.output.file_presenter import present
 from enum_.shared.utils import remove_comments_and_blanks
 
 
@@ -34,14 +34,12 @@ def _get_cron_directory_listings():
 
     for cron_directory in cron_directories:
         try:
-            result = subprocess.run(["ls", "-alh", cron_directory], capture_output=True, text=True)
-
-            if result.returncode == 0:
-                directory_listings.append(f"▸ {cron_directory}\n{result.stdout.strip()}")
+            for cron_file in os.scandir(cron_directory):
+                directory_listings.append(present(cron_file.path))
         except OSError:
             pass
 
-    return "\n\n".join(directory_listings)
+    return directory_listings
 
 def _get_user_crontab():
     try:
@@ -70,5 +68,5 @@ def cron():
     return {
         "\nCrontab -l": user_crontab,
         "\nCRON JOBS": "\n".join(cron_jobs),
-        "\nOTHER CRON FILES": cron_directory_listings,
+        "\nOTHER CRON FILES": "\n".join(cron_directory_listings),
     }

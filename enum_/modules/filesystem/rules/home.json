@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "id": "Home Scan 001",
+      "id": "Home 001",
       "severity": "needs_review",
       "match": "any",
       "conditions": [
@@ -12,7 +12,7 @@
       "exploit": "Inspect the SSH directory for credentials, private keys, authorized keys, or configuration that can provide access to another account or system."
     },
     {
-      "id": "Home Scan 002",
+      "id": "Home 002",
       "severity": "flagged_secret",
       "match": "any",
       "conditions": [
@@ -23,7 +23,7 @@
       "exploit": "Search the history for passwords, tokens, API keys, connection strings, or previously executed privileged commands."
     },
     {
-      "id": "Home Scan 003",
+      "id": "Home 003",
       "severity": "flagged_secret",
       "match": "any",
       "conditions": [
@@ -34,7 +34,7 @@
       "exploit": "Search the history for passwords, tokens, API keys, connection strings, or other credentials supplied through shell commands."
     },
     {
-      "id": "Home Scan 004",
+      "id": "Home 001",
       "severity": "flagged_secret",
       "match": "any",
       "conditions": [
@@ -45,24 +45,24 @@
       "exploit": "Search the history for database credentials, sensitive connection information, or queries containing secrets."
     },
     {
-      "id": "Home Scan 005",
+      "id": "Home 005",
       "severity": "direct_root",
       "match": "any",
       "conditions": [
         {"type": "regex", "value": "^.* <-- SSH PRIVATE KEY FOUND$"}
       ],
-      "description": "SSH private key discovered in a user home directory.",
+      "description": "Readable SSH private key discovered in a user home directory.",
       "reference": "https://man.openbsd.org/ssh",
       "exploit": "Use the discovered private key to authenticate to systems or accounts where the corresponding public key is authorized."
     },
     {
-      "id": "Home Scan 008",
+      "id": "Home 006",
       "severity": "direct_root",
       "match": "any",
       "conditions": [
         {"type": "regex", "value": "^/root/.* <-- SSH PRIVATE KEY FOUND$"}
       ],
-      "description": "Private key discovered in the root user's home directory.",
+      "description": "Readable private key discovered in the root user's home directory.",
       "reference": "https://man.openbsd.org/ssh",
       "exploit": "Use the root-owned private key to attempt authentication to systems where the corresponding public key is authorized."
     }

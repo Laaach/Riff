@@ -56,7 +56,7 @@ try:
 		if args.silent:
 			args.summary = True
 
-		modules_to_run = registry(args.fast, args.modules, args.exclude, args.skip_loading, args.default, args.password)
+		modules_to_run = registry(args.fast, args.modules, args.exclude, args.skip_loading, args.password)
 
 		def run_module(module_name, function):
 			try:
@@ -100,8 +100,7 @@ try:
 		if args.remove and args.item is None:
 			sys.exit("--remove requires --item")
 
-		if (
-				args.category or args.question or args.notes or args.hints or args.status) and args.item is None and not args.add:
+		if (args.category or args.question or args.notes or args.hints or args.status) and args.item is None and not args.add:
 			sys.exit("Editing requires --item")
 
 		if args.add and not (args.category and args.status):

@@ -97,7 +97,6 @@ Available modules:
         enum_parser.add_argument("--skip-loading", action="store_true", help="skip the loading bar animation")
         enum_parser.add_argument("--summary", action="store_true", help="show summary")
         enum_parser.add_argument("--list-modules", action="store_true", default=False , help="show available modules")
-        enum_parser.add_argument("--default", default=False, action="store_true", help="show default SUIDs/SGIDs (default: off)")
         enum_parser.add_argument("--no-colors", action="store_true", default=False, help="disable ANSI colors")
 
         return "enum" , enum_parser.parse_args(enum_args)

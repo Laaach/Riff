@@ -1,4 +1,6 @@
 import os
+from enum_.core.output.file_presenter import present
+
 def _users_from_etc_passwd():
 	users_homes = []
 
@@ -30,8 +32,8 @@ def _is_private_key(path):
 	                        "-----BEGIN ENCRYPTED PRIVATE KEY-----"]
 
 	try:
-		with open(path, 'r', errors='ignore') as f:
-			content = f.read()
+		with open(path, 'r', errors='ignore') as private_key_file:
+			content = private_key_file.read()
 	except (FileNotFoundError, PermissionError, IsADirectoryError):
 		return False
 
@@ -47,17 +49,17 @@ def _home_folder_scan():
 
 		for root, dirs, files in os.walk(user_home):
 
-			for d in dirs:
-				dir_path = os.path.join(root, d)
+			for directory in dirs:
+				directory_path = os.path.join(root, directory)
 
-				if d == ".ssh":
-					ssh_folders.append(dir_path)
+				if directory == ".ssh":
+					ssh_folders.append(directory_path)
 
-			for f in files:
-				file_path = os.path.join(root, f)
+			for file in files:
+				file_path = os.path.join(root, file)
 
-				if _is_history_file(f):
-					history_files.append(f"{file_path}")
+				if _is_history_file(file):
+					history_files.append(f"{present(file_path)}")
 
 	for ssh_folder in ssh_folders:
 		try:
@@ -66,9 +68,12 @@ def _home_folder_scan():
 					if entry.is_dir():
 						continue
 					if _is_private_key(entry.path):
-						private_keys.append(f"{entry.path} <-- SSH PRIVATE KEY FOUND")
+						private_keys.append(f"{present(entry.path)} <-- SSH PRIVATE KEY FOUND")
 		except (FileNotFoundError, PermissionError, NotADirectoryError):
 			pass
+
+	for i, ssh_folder in enumerate(ssh_folders):
+		ssh_folders[i] = present(ssh_folder)
 
 	return ssh_folders, history_files, private_keys
 
@@ -82,8 +87,8 @@ def home():
 
 	raw = {
 		"SSH Folders": ssh_folders_str,
-		"History Files": history_files_str,
-		"Private Keys": private_keys_str
+		"\n  History Files": history_files_str,
+		"\n  Private Keys": private_keys_str
 	}
 
 	return raw

@@ -5,11 +5,33 @@
       "severity": "direct_root",
       "match": "any",
       "conditions": [
-        {"type": "regex", "value": "sgfgdsgdsguigbsugbuisdgfbui"}
+        {"type": "regex", "value": "group=(?:root|shadow)\\b.*perm=\\d[0-7][0-7][2367]"}
       ],
-      "description": "",
-      "reference": "",
-      "exploit": ""
+      "description": "An SGID binary targeting the root or shadow group is writable by all users, giving a deterministic path to root-equivalent privileges.",
+      "reference": "https://gtfobins.github.io/",
+      "exploit": "Overwrite the world-writable binary with attacker-controlled code to gain root or shadow group privileges (e.g. read /etc/shadow) on execution."
+    },
+    {
+      "id": "SGID Enum 002",
+      "severity": "risky_config",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^(?!.*group=(?:root|shadow)\\b).*perm=\\d[0-7][0-7][2367]"}
+      ],
+      "description": "An SGID binary targeting a group other than root or shadow is writable by all users. Impact depends on what that group can access.",
+      "reference": "https://gtfobins.github.io/",
+      "exploit": "Overwrite the binary and inspect what resources the target group can access; this may enable a further privilege escalation chain."
+    },
+    {
+      "id": "SGID Enum 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "path=(?:/tmp/|/var/tmp/|/dev/shm/|/home/|/opt/)\\S*"}
+      ],
+      "description": "An SGID binary is located in a user-writable or non-standard location, suggesting it may be a planted or custom binary rather than a distro package.",
+      "reference": "https://gtfobins.github.io/",
+      "exploit": "Inspect the binary directly (strings, ltrace, or disassembly) to determine what it does and whether it can be leveraged for group privilege escalation."
     }
   ]
 }

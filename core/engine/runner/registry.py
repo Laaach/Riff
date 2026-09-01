@@ -8,7 +8,7 @@ from enum_.modules.network import network, nfs
 from shared.look.colors import *
 import sys
 
-def registry(is_fast, modules, exclude, skip_loading, show_default, password):
+def registry(is_fast, modules, exclude, skip_loading, password):
 
     modules_list = {
         'loading': lambda: loading(is_fast),
@@ -26,8 +26,8 @@ def registry(is_fast, modules, exclude, skip_loading, show_default, password):
         'cron': lambda: cron.cron(),
         'home': lambda: home.home(),
         'capabilities': lambda: capabilities.capabilities(),
-        'suid': lambda: suid.suid(show_default),
-        'sgid': lambda: sgid.sgid(show_default),
+        'suid': lambda: suid.suid(),
+        'sgid': lambda: sgid.sgid(),
         'sessions': lambda: sessions.sessions(),
         'path': lambda: path.path()
     }

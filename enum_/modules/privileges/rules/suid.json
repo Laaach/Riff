@@ -1,15 +1,37 @@
 {
   "rules": [
     {
-      "id": "SUID Enum 001",
+      "id": "SUID 001",
       "severity": "direct_root",
       "match": "any",
       "conditions": [
-        {"type": "regex", "value": "sgfgdsgdsguigbsugbuisdgfbui"}
+        {"type": "regex", "value": "owner=root\\b.*perm=\\d[0-7][0-7][2367]"}
       ],
-      "description": "",
-      "reference": "",
-      "exploit": ""
+      "description": "A root-owned SUID binary is writable by all users, allowing direct replacement of its executable content.",
+      "reference": "https://gtfobins.github.io/",
+      "exploit": "Overwrite the binary with attacker-controlled code (e.g. a shell spawn); it will run as root when executed."
+    },
+    {
+      "id": "SUID 002",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "^(?!owner=root\\b)owner=\\S+"}
+      ],
+      "description": "A SUID binary is owned by a user other than root, granting that user's identity rather than root when executed.",
+      "reference": "https://gtfobins.github.io/",
+      "exploit": "Execute the binary to gain the file owner's identity, which may enable further lateral movement or a separate privilege escalation chain."
+    },
+    {
+      "id": "SUID 003",
+      "severity": "needs_review",
+      "match": "any",
+      "conditions": [
+        {"type": "regex", "value": "path=(?:/tmp/|/var/tmp/|/dev/shm/|/home/|/opt/)\\S*"}
+      ],
+      "description": "A SUID binary is located in a user-writable or non-standard location, suggesting it may be a planted or custom binary rather than a distro package.",
+      "reference": "https://gtfobins.github.io/",
+      "exploit": "Inspect the binary directly (strings, ltrace, or disassembly) to determine what it does and whether it can be leveraged for privilege escalation."
     }
   ]
 }
